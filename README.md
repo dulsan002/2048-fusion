@@ -1,8 +1,8 @@
 # 2048 Fusion
 
 [![Build & Verification](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-29%20passed-success.svg)]()
-[![Bundle Size](https://img.shields.io/badge/bundle%20size-15.1%20KiB%20(ZIP)-blue.svg)]()
+[![Tests](https://img.shields.io/badge/tests-55%20passed-success.svg)]()
+[![Bundle Size](https://img.shields.io/badge/bundle%20size-18%20KiB%20(GZIP)-blue.svg)]()
 [![YouTube Playables](https://img.shields.io/badge/YouTube%20Playables-certified%20ready-red.svg)]()
 [![WCAG](https://img.shields.io/badge/accessibility-WCAG%202.1%20AA-purple.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -15,12 +15,17 @@ Created and engineered by **Dulsan Vasantharaj**.
 
 ## 1. Overview
 
-**2048 Fusion** re-imagines the classic 2048 sliding puzzle as an energy core fusion experience. Built from scratch with pure TypeScript, hardware-accelerated CSS Grid GPU transforms, and procedural Web Audio API synthesis, it delivers an ultra-smooth 60/120 FPS experience with an initial package size of just **15 KiB**—over 99.9% below YouTube Playables' 30 MiB initial download limit.
+**2048 Fusion** re-imagines the classic 2048 sliding puzzle as an energy core fusion experience. Built from scratch with pure TypeScript, hardware-accelerated CSS Grid GPU transforms, and procedural Web Audio API synthesis, it delivers an ultra-smooth 60/120 FPS experience with an initial gzipped bundle size under **18 KiB**—over 99.9% below YouTube Playables' 30 MiB initial download limit.
 
 ---
 
 ## 2. Key Features
 
+- **Commercial-Grade UI/UX Design System:**
+  - **Cosmic Hero Main Menu:** Translucent glassmorphic landscape card, vibrant glowing Play CTA, developer attribution, and quick-action navigation.
+  - **Motivating Game Over Experience:** Structured score analysis (Score, Best, Highest Tile badge, Moves count), encouraging messaging, and immediate Play Again loop.
+  - **Celebratory Win State:** Golden trophy celebration with score/moves/time metrics and seamless continuation beyond 2048.
+  - **Grouped Settings Panel:** Audio controls (Background Music & SFX switches + range sliders with live percentage feedback), Display (High Contrast, Reduced Motion), and Gameplay (Move Hints, Confirm Restart).
 - **Production-Grade YouTube Playables Integration:**
   - Official SDK v1 lifecycle synchronization: `firstFrameReady()`, `gameReady()`.
   - Strict compliance with YouTube's **Pause Contract** (`onPause`, `onResume`) freezing inputs, audio, and animations.
@@ -30,12 +35,11 @@ Created and engineered by **Dulsan Vasantharaj**.
 - **Mathematical Accuracy & Anti-Double-Merge:**
   - Strict standard 2048 merge rules: e.g. `[2, 2, 2, 2]` moving LEFT merges into `[4, 4, 0, 0]` (+8 score), never into `[8]`.
   - Deterministic PRNG with 90% chance of tile 2 and 10% chance of tile 4.
-  - Reaching the 2048 Fusion Core triggers a celebration modal with the option to continue playing towards 4096+ and higher singularities.
+  - 1-step lookahead hint engine (`getBestHintDirection()`) to guide players.
 - **100% Original Procedural Web Audio Synthesis:**
-  - Zero external MP3/WAV file downloads.
-  - Real-time harmonic chimes whose pitch scales dynamically with tile values (from C4 up to C6 major arpeggio).
-  - Clean UI taps, whooshes, win fanfare, and descending minor game over chords.
-  - Zero copyright or third-party audio licensing risks.
+  - Generative ambient soundtrack with pentatonic pads, LFO modulation, and periodic bell chimes.
+  - Dynamic sound effects: tile movement, combo merge escalation, milestone fanfares, and undo chimes.
+  - Zero external MP3/WAV file downloads, zero copyright or third-party audio licensing risks.
 - **Universal Unified Input:**
   - **Keyboard:** Arrow keys, WASD, `R` (Restart), `U` (Undo), `P`/`Escape` (Pause).
   - **Touch & Mobile:** High-precision swipe gesture tracking with 30px deadzone, angle vector detection, multi-touch rejection, and gesture locking.

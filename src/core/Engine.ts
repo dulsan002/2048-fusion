@@ -1,6 +1,6 @@
 import { Board, BOARD_SIZE } from './Board';
 import { RandomGenerator } from './Random';
-import { Direction, GameSettings, GameState, MoveResult, MoveStep, Position, Tile } from './Types';
+import { Direction, GameHistoryRecord, GameSettings, GameState, GameStats, MoveResult, MoveStep, Position, Tile } from './Types';
 
 export class GameEngine {
   private board: Board;
@@ -15,10 +15,22 @@ export class GameEngine {
   private settings: GameSettings = {
     soundEnabled: true,
     musicEnabled: true,
+    soundVolume: 0.8,
+    musicVolume: 0.6,
     hapticsEnabled: true,
     highContrast: false,
     reducedMotion: false,
+    showHints: false,
+    confirmRestart: true,
+    musicTrack: 'ambient_flow',
+    backgroundTheme: 'cosmic_horizon',
   };
+
+  private movesCount: number = 0;
+  private startTime: number = Date.now();
+  private gamesPlayed: number = 1;
+  private gamesWon: number = 0;
+  private history: GameHistoryRecord[] = [];
 
   constructor(randomGenerator?: RandomGenerator, initialBoard?: Board) {
     this.random = randomGenerator || new RandomGenerator();
@@ -33,6 +45,9 @@ export class GameEngine {
     this.hasContinued = false;
     this.previousSnapshot = null;
     this.nextTileId = 1;
+    this.movesCount = 0;
+    this.startTime = Date.now();
+    this.gamesPlayed++;
 
     // Standard 2048 rule: start with 2 tiles
     const spawnedTiles: Tile[] = [];
@@ -98,6 +113,7 @@ export class GameEngine {
 
     // Apply move steps to current board
     this.applySteps(steps);
+    this.movesCount++;
 
     // Update score
     this.score += scoreIncrement;
@@ -111,6 +127,7 @@ export class GameEngine {
     if (highest >= 2048 && !this.isWon && !this.hasContinued) {
       this.isWon = true;
       justWon = true;
+      this.gamesWon++;
     }
 
     // Spawn new tile in empty cell
@@ -152,6 +169,7 @@ export class GameEngine {
     this.score = this.previousSnapshot.score;
     this.previousSnapshot = null;
     this.isGameOver = false;
+    if (this.movesCount > 0) this.movesCount--;
     return true;
   }
 
@@ -296,6 +314,76 @@ export class GameEngine {
     this.settings = { ...this.settings, ...newSettings };
   }
 
+  public getMovesCount(): number {
+    return this.movesCount;
+  }
+
+  public getElapsedTime(): number {
+    return Math.floor((Date.now() - this.startTime) / 1000);
+  }
+
+  public getMaxTile(): number {
+    return this.board.getMaxTile();
+  }
+
+  public getStats(): GameStats {
+    return {
+      bestScore: this.bestScore,
+      gamesPlayed: this.gamesPlayed,
+      gamesWon: this.gamesWon,
+      highestTile: this.board.getMaxTile(),
+      totalScore: this.bestScore,
+      movesCount: this.movesCount,
+      startTime: this.startTime,
+      elapsedSeconds: this.getElapsedTime(),
+    };
+  }
+
+  public getBestHintDirection(): Direction | null {
+    const directions: Direction[] = ['UP', 'RIGHT', 'DOWN', 'LEFT'];
+    let bestDirection: Direction | null = null;
+    let maxGain = -1;
+
+    for (const dir of directions) {
+      const clone = this.board.clone();
+      const sim = this.calculateMove(clone, dir);
+      if (sim.moved) {
+        if (sim.scoreIncrement > maxGain) {
+          maxGain = sim.scoreIncrement;
+          bestDirection = dir;
+        }
+      }
+    }
+
+    return bestDirection;
+  }
+
+  public recordGameEnd(won: boolean): void {
+    if (this.score === 0) return;
+    const now = new Date();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateStr = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    const record: GameHistoryRecord = {
+      id: `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      score: this.score,
+      highestTile: this.board.getMaxTile(),
+      moves: this.movesCount,
+      date: dateStr,
+      won,
+    };
+    this.history.unshift(record);
+    if (this.history.length > 10) {
+      this.history.pop();
+    }
+    if (won) {
+      this.gamesWon++;
+    }
+  }
+
+  public getHistory(): GameHistoryRecord[] {
+    return [...this.history];
+  }
+
   public getState(): GameState {
     return {
       version: 1,
@@ -306,6 +394,8 @@ export class GameEngine {
       isGameOver: this.isGameOver,
       hasContinued: this.hasContinued,
       settings: { ...this.settings },
+      stats: this.getStats(),
+      history: [...this.history],
       timestamp: Date.now(),
     };
   }
@@ -322,6 +412,15 @@ export class GameEngine {
     this.hasContinued = !!state.hasContinued;
     if (state.settings) {
       this.settings = { ...this.settings, ...state.settings };
+    }
+    if (state.stats) {
+      if (typeof state.stats.gamesPlayed === 'number') this.gamesPlayed = state.stats.gamesPlayed;
+      if (typeof state.stats.gamesWon === 'number') this.gamesWon = state.stats.gamesWon;
+      if (typeof state.stats.movesCount === 'number') this.movesCount = state.stats.movesCount;
+      if (typeof state.stats.startTime === 'number') this.startTime = state.stats.startTime;
+    }
+    if (Array.isArray(state.history)) {
+      this.history = [...state.history];
     }
     this.previousSnapshot = null;
     return true;

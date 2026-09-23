@@ -1,0 +1,273 @@
+/* Main Menu Screen Styling - Cyber-Cosmic Twilight Aesthetic */
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--menu-max-width);
+  animation: menu-fade-in var(--transition-normal);
+}
+
+@keyframes menu-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.menu-card {
+  position: relative;
+  width: 100%;
+  border-radius: var(--border-radius-xl);
+  padding: clamp(24px, 4.5vmin, 40px) clamp(18px, 4vmin, 32px);
+  box-sizing: border-box;
+  background: 
+    linear-gradient(180deg, rgba(14, 18, 30, 0.75) 0%, rgba(9, 12, 21, 0.95) 100%),
+    radial-gradient(ellipse at 50% 70%, rgba(244, 63, 94, 0.25) 0%, rgba(245, 158, 11, 0.15) 30%, transparent 70%),
+    radial-gradient(circle at 50% 20%, rgba(0, 210, 255, 0.15) 0%, transparent 60%);
+  border: 1px solid var(--border-glass);
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 0 40px rgba(0, 210, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Subtle decorative cosmic landscape silhouette background */
+.menu-card-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+    radial-gradient(circle at 80% 25%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  background-size: 100% 100%;
+  opacity: 0.7;
+}
+
+/* Mountain / glowing horizon SVG ambient shape */
+.menu-landscape-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.menu-settings-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--border-radius-pill);
+  background: var(--btn-glass-bg);
+  border: 1px solid var(--btn-glass-border);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 5;
+}
+
+.menu-settings-btn:hover {
+  background: var(--btn-glass-hover);
+  border-color: var(--accent-cyan);
+  transform: rotate(45deg);
+}
+
+.menu-brand {
+  margin-top: 28px;
+  margin-bottom: 36px;
+  z-index: 2;
+}
+
+.menu-title-main {
+  font-size: clamp(48px, 12vw, 64px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin: 0;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.3);
+}
+
+.menu-title-sub {
+  font-size: clamp(34px, 8.5vw, 44px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #00d2ff 0%, #38bdf8 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(0, 210, 255, 0.4));
+}
+
+.menu-tagline {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 12px 0 0 0;
+  letter-spacing: 0.4px;
+}
+
+/* Primary Hero Play CTA */
+.btn-hero-play {
+  width: 100%;
+  max-width: 290px;
+  height: 56px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: var(--border-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--btn-primary-bg);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 
+    0 8px 24px rgba(0, 114, 255, 0.45),
+    0 0 20px rgba(0, 210, 255, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  transition: all var(--transition-fast);
+  z-index: 2;
+  margin-bottom: 24px;
+}
+
+.btn-hero-play:hover {
+  background: var(--btn-primary-hover);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 12px 32px rgba(0, 114, 255, 0.6),
+    0 0 30px rgba(0, 210, 255, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.btn-hero-play:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-play-icon {
+  font-size: 16px;
+  margin-right: 2px;
+}
+
+/* Secondary Actions Grid (Glass Cards) */
+.menu-actions-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 2vmin, 14px);
+  width: 100%;
+  max-width: 380px;
+  z-index: 2;
+  margin-bottom: 28px;
+}
+
+.btn-menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--btn-glass-bg);
+  border: 1px solid var(--btn-glass-border);
+  border-radius: var(--border-radius-md);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn-menu-card:hover {
+  background: var(--btn-glass-hover);
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+.btn-menu-card:active {
+  transform: translateY(1px);
+}
+
+.menu-action-icon {
+  font-size: 20px;
+}
+
+.menu-action-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+}
+
+.btn-menu-card:hover .menu-action-label {
+  color: var(--text-main);
+}
+
+/* Footer / Meta Row */
+.menu-footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: var(--text-dim);
+  z-index: 2;
+}
+
+.menu-footer-audio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-audio-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: color var(--transition-fast);
+}
+
+.menu-audio-btn:hover {
+  color: var(--accent-cyan);
+}
+
+.menu-developer-tag {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}

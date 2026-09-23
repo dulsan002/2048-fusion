@@ -72,7 +72,9 @@ export class PlayablesBridge {
 
         this.sdk.system.onAudioEnabledChange((enabled: boolean) => {
           console.log(`[PlayablesBridge] SDK onAudioEnabledChange: ${enabled}`);
-          this.triggerAudioChange(enabled);
+          if (this.isPlayablesEnv) {
+            this.triggerAudioChange(enabled);
+          }
         });
       } catch (err) {
         console.warn('[PlayablesBridge] Error registering SDK system callbacks:', err);
@@ -169,14 +171,14 @@ export class PlayablesBridge {
   }
 
   public isAudioEnabled(): boolean {
-    if (this.sdk && typeof this.sdk.system?.isAudioEnabled === 'function') {
+    if (this.isPlayablesEnv && this.sdk && typeof this.sdk.system?.isAudioEnabled === 'function') {
       try {
         return this.sdk.system.isAudioEnabled();
       } catch (e) {
         console.warn('[PlayablesBridge] Error checking isAudioEnabled:', e);
       }
     }
-    return true; // Default to enabled in standard browsers
+    return true; // Default to enabled in standalone web / local mode
   }
 
   public async sendScore(score: number): Promise<void> {

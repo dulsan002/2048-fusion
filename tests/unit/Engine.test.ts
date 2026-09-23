@@ -262,4 +262,61 @@ describe('GameEngine Unit Tests', () => {
       expect(engine2.getBoard().toMatrix()).toEqual(engine.getBoard().toMatrix());
     });
   });
+
+  describe('Stats & Hint Engine', () => {
+    it('tracks moves count and game stats accurately', () => {
+      const customGrid = [
+        [2, 2, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+      const engine = new GameEngine(new RandomGenerator(42), new Board(4, customGrid));
+      expect(engine.getMovesCount()).toBe(0);
+
+      engine.move('LEFT');
+      expect(engine.getMovesCount()).toBe(1);
+
+      const stats = engine.getStats();
+      expect(stats.movesCount).toBe(1);
+      expect(stats.highestTile).toBe(4);
+      expect(stats.gamesPlayed).toBe(1);
+    });
+
+    it('recommends the optimal move direction with getBestHintDirection()', () => {
+      const customGrid = [
+        [4, 0, 0, 0],
+        [4, 0, 0, 0],
+        [8, 2, 4, 8],
+        [16, 32, 64, 128],
+      ];
+      const engine = new GameEngine(new RandomGenerator(42), new Board(4, customGrid));
+      // Moving UP merges 4+4=8 (+8 points), higher than any other direction
+      const hint = engine.getBestHintDirection();
+      expect(hint).toBe('UP');
+    });
+
+    it('persists and updates extended settings (volume, hints, confirmRestart)', () => {
+      const engine = new GameEngine();
+      engine.updateSettings({
+        soundVolume: 0.5,
+        musicVolume: 0.7,
+        showHints: true,
+        confirmRestart: false,
+      });
+
+      const settings = engine.getSettings();
+      expect(settings.soundVolume).toBe(0.5);
+      expect(settings.musicVolume).toBe(0.7);
+      expect(settings.showHints).toBe(true);
+      expect(settings.confirmRestart).toBe(false);
+
+      const state = engine.getState();
+      const engine2 = new GameEngine();
+      engine2.restoreState(state);
+      expect(engine2.getSettings().soundVolume).toBe(0.5);
+      expect(engine2.getSettings().showHints).toBe(true);
+      expect(engine2.getSettings().confirmRestart).toBe(false);
+    });
+  });
 });

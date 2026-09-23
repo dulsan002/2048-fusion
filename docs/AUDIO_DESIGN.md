@@ -41,18 +41,19 @@ AmbientOsc(s) → ambientFilter → musicGain (submix) ────────�
 
 | Node | Purpose | Default Gain |
 |------|---------|-------------|
-| `masterGain` | Global volume, platform mute override | 0.35 |
-| `sfxGain` | SFX submix, user SFX toggle | 1.0 (or 0) |
-| `musicGain` | Music submix, user music toggle | 0.4 (or 0) |
+| `masterGain` | Global volume, platform mute override | 0.60 |
+| `sfxGain` | SFX submix, user SFX toggle | 0.65 (or 0) |
+| `musicGain` | Music submix, user music toggle | 0.45 (or 0) |
 | Per-sound `GainNode` | Individual envelope shaping | Varies (0.08–0.30) |
 
-### 2.3 AudioContext Lifecycle
+### 2.3 AudioContext Lifecycle & Unlocking
 
-1. **Creation:** Deferred until first user gesture (`pointerdown`, `keydown`, or `touchstart`).
-2. **Unlock:** `AudioContext.resume()` called on gesture (required by Chrome/Safari autoplay policy).
-3. **Fade-in:** Master gain ramps from 0 → 0.35 over 500ms to prevent audio pop.
-4. **Suspend:** `AudioContext.suspend()` on platform pause (YouTube Playables `onPause`).
-5. **Resume:** `AudioContext.resume()` on platform resume, if user hasn't muted.
+1. **Creation:** Deferred until first user gesture (`pointerdown`, `keydown`, `touchstart`, or first move).
+2. **Unlock & Auto-Resume:** `AudioContext.resume()` called on gesture and awaited to immediately kick off procedural music.
+3. **Environment Resilience:** When running outside active YouTube Playables containers (e.g. standalone web, localhost, Vercel), mock/stub platform callbacks are handled gracefully without spurious mute overrides.
+4. **Music Ducking:** During high-energy tile merges and milestone fanfares, `musicGain` dips by ~25% for 400ms and smoothly restores, keeping SFX clear and punchy.
+5. **Suspend:** `AudioContext.suspend()` on platform pause (YouTube Playables `onPause`).
+6. **Resume:** `AudioContext.resume()` on platform resume, if user hasn't muted.
 
 ---
 
@@ -89,15 +90,16 @@ Merge tones follow a harmonic progression through the C major / pentatonic scale
 | 1024 | 783.99 Hz | G5 |
 | 2048 | 1046.50 Hz | C6 |
 
-### 3.3 Ambient Music
+### 3.3 Ambient Soundtrack & Procedural Melody
 
-The background music is a **generative ambient pad** — not a composed melody.
+The background music is a **cyber-lounge procedural soundtrack** blending lush chord pads with soft melodic bell chimes.
 
 **Implementation:**
-- **3 oscillators** (alternating sine/triangle) forming a chord from a pentatonic scale
-- **Low-pass filter** (cutoff ~900 Hz, Q=0.7) for warmth
-- **LFO** modulating filter cutoff at 0.15 Hz (slow breathing effect)
-- **Random detuning** (±5 cents per oscillator) for analog character
+- **Lush Chord Pad:** 4 oscillators (alternating sine/triangle) forming rich 7th/9th chords across octaves 3 & 4 (Cmaj7, Am7, Fmaj7, G, Em7, Dm7)
+- **Low-pass Filter:** Cutoff at ~1400 Hz with breathing LFO (0.1 Hz, ±300 Hz depth)
+- **Procedural Chill Bells:** Every 2.0–3.5s, a soft pentatonic chime (C4–E5) plays with 1.2s bell-like decay, giving an immediately recognizable, calming melodic soundtrack
+- **Smooth Crossfading:** 2.5s overlap between chord changes (transitioning every 7–10s)
+- **Analog Warmth:** Slight random detuning (±6 cents) per pad voice
 - **Chord progression:** 7 chords from C pentatonic, changing every 8–12 seconds with 2-second crossfade
 - **Volume:** ~15% of master (sits well under SFX)
 

@@ -28,12 +28,23 @@ export class BoardRenderer {
       this.calculateDimensions();
       this.repositionAllTiles();
     });
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0) {
+            this.calculateDimensions();
+            this.repositionAllTiles();
+          }
+        }
+      });
+      ro.observe(this.boardContainer);
+    }
   }
 
   public calculateDimensions(): void {
-    const width = this.tileContainer.clientWidth;
-    // 4 cells with 3 gaps: 4 * cellSize + 3 * gap = width
-    // Extract gap from computed style or default to 12
+    const width = this.tileContainer.clientWidth || (this.boardContainer.clientWidth - (this.gridGap * 2));
+    if (width <= 0) return;
     const computed = window.getComputedStyle(this.boardContainer);
     const gap = parseFloat(computed.getPropertyValue('--grid-gap')) || 12;
     this.gridGap = gap;

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="description" content="2048 Fusion — A production-grade, cyber-luminescent 2048 puzzle game built for YouTube Playables and web by Dulsan Vasantharaj.">
-  <meta name="theme-color" content="#0b0e14">
+  <meta name="theme-color" content="#060913">
   <meta name="author" content="Dulsan Vasantharaj">
   <title>2048 Fusion</title>
 
@@ -12,193 +12,725 @@
   <script src="https://www.youtube.com/game_api/v1"></script>
 
   <!-- Favicon / Web App Icon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0e14'/><circle cx='50' cy='50' r='36' fill='none' stroke='%2300f0ff' stroke-width='8'/><text x='50' y='58' font-family='sans-serif' font-weight='bold' font-size='26' fill='%23ffffff' text-anchor='middle'>2048</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23060913'/><circle cx='50' cy='50' r='36' fill='none' stroke='%2300d2ff' stroke-width='8'/><text x='50' y='58' font-family='sans-serif' font-weight='bold' font-size='26' fill='%23ffffff' text-anchor='middle'>2048</text></svg>">
 </head>
 <body>
   <div id="app">
-    <!-- Header: Branding & Score Counters -->
-    <header class="game-header">
-      <div class="brand-wrapper">
-        <h1 class="brand-title">2048 FUSION</h1>
-        <div class="brand-subtitle">Energy Core Fusion</div>
-      </div>
-      <div class="scores-wrapper">
-        <div class="score-box" id="score-box" aria-label="Current Score">
-          <div class="score-label">Score</div>
-          <div class="score-value" id="current-score">0</div>
+
+    <!-- ============================================== -->
+    <!-- VIEW 1: MAIN MENU                              -->
+    <!-- ============================================== -->
+    <section class="view-section active" id="view-menu" aria-label="2048 Fusion Main Menu">
+      <div class="menu-container">
+        <div class="menu-card">
+          <div class="menu-card-backdrop" aria-hidden="true"></div>
+          
+          <!-- Mountain landscape ambient SVG silhouette -->
+          <svg class="menu-landscape-svg" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,200 L0,150 L60,110 L130,145 L200,90 L270,140 L340,105 L400,160 L400,200 Z" fill="#00d2ff" />
+            <path d="M0,200 L0,170 L80,130 L160,165 L240,120 L320,160 L400,140 L400,200 Z" fill="#ec4899" opacity="0.6" />
+          </svg>
+
+          <!-- Top-right Settings Button -->
+          <button id="btn-menu-settings" class="menu-settings-btn" aria-label="Open Settings">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+
+          <!-- Branding Section -->
+          <div class="menu-brand">
+            <h1 class="menu-title-main">2048</h1>
+            <div class="menu-title-sub">Fusion</div>
+            <p class="menu-tagline">Simple Moves. Infinite Possibilities.</p>
+          </div>
+
+          <!-- Hero Play CTA Button -->
+          <button id="btn-menu-play" class="btn btn-hero-play" aria-label="Start Game">
+            <span class="icon-wrap" id="icon-menu-play"></span>
+            <span id="btn-menu-play-text">Play</span>
+          </button>
+
+          <!-- Secondary Action Cards Row -->
+          <div class="menu-actions-row">
+            <button id="btn-menu-help" class="btn btn-menu-card" aria-label="How to Play Instructions">
+              <span class="menu-action-icon" id="icon-menu-help"></span>
+              <span class="menu-action-label">How to Play</span>
+            </button>
+            <button id="btn-menu-stats" class="btn btn-menu-card" aria-label="High Scores and Statistics">
+              <span class="menu-action-icon" id="icon-menu-stats"></span>
+              <span class="menu-action-label">High Scores</span>
+            </button>
+            <button id="btn-menu-bottom-settings" class="btn btn-menu-card" aria-label="Open Settings">
+              <span class="menu-action-icon" id="icon-menu-settings"></span>
+              <span class="menu-action-label">Settings</span>
+            </button>
+          </div>
+
+          <!-- Footer Info Row -->
+          <div class="menu-footer-bar">
+            <div class="menu-footer-audio">
+              <button id="btn-menu-audio-toggle" class="menu-audio-btn" aria-label="Toggle Sound">
+                <svg id="menu-sound-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M11 5L6 9H2V15H6L11 19V5Z"/>
+                  <path d="M15.54 8.46C16.48 9.4 17 10.66 17 12C17 13.34 16.48 14.6 15.54 15.54"/>
+                </svg>
+              </button>
+            </div>
+            <div class="menu-developer-tag">
+              Dulsan Vasantharaj • v1.0.0
+            </div>
+          </div>
         </div>
-        <div class="score-box" aria-label="Best Score">
-          <div class="score-label">Best</div>
-          <div class="score-value" id="best-score">0</div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- VIEW 2: IN-GAME HUD & BOARD                    -->
+    <!-- ============================================== -->
+    <section class="view-section" id="view-game" aria-label="2048 Fusion Active Gameplay">
+      <div class="game-viewport-stage">
+        
+        <!-- Desktop Left Sidebar (Visible on >= 1150px Viewports) -->
+        <aside class="desktop-sidebar desktop-sidebar-left">
+          <div class="sidebar-brand">
+            <h1 class="brand-title">2048</h1>
+            <div class="brand-subtitle">FUSION</div>
+            <p class="brand-tagline">Simple Moves.<br>Infinite Possibilities.</p>
+          </div>
+
+          <div class="sidebar-quote-card">
+            <div class="quote-bar"></div>
+            <div class="quote-text">“Focus<br>Merge<br>Grow<br>Repeat”</div>
+          </div>
+
+          <!-- Live Quick Stats Card -->
+          <div class="sidebar-stats-card">
+            <div class="stat-row">
+              <span class="stat-icon icon-wrap" id="icon-stat-games"></span>
+              <span class="stat-name">Games Played</span>
+              <span class="stat-num" id="sidebar-stat-games">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-icon icon-wrap" id="icon-stat-wins"></span>
+              <span class="stat-name">2048 Wins</span>
+              <span class="stat-num" id="sidebar-stat-wins">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-icon icon-wrap" id="icon-stat-highest"></span>
+              <span class="stat-name">Highest Tile</span>
+              <span class="stat-num" id="sidebar-stat-highest">2</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-icon icon-wrap" id="icon-stat-best"></span>
+              <span class="stat-name">Best Score</span>
+              <span class="stat-num" id="sidebar-stat-best">0</span>
+            </div>
+          </div>
+
+          <div class="sidebar-dev-footer">
+            <div class="dev-meta">2048 Fusion <span>v1.0.0</span></div>
+            <div class="dev-author">Developed by <strong>Dulsan Vasantharaj</strong></div>
+          </div>
+        </aside>
+
+        <!-- Center Game Stage -->
+        <div class="game-center-column">
+          <div class="game-stage game-console-card">
+            
+            <!-- Top HUD Bar: Scores & Action Controls -->
+            <header class="game-hud">
+              <div class="hud-scores">
+                <div class="hud-card" id="score-box" aria-label="Current Score">
+                  <div class="hud-label">Score</div>
+                  <div class="hud-value" id="current-score">0</div>
+                </div>
+                <div class="hud-card" aria-label="Best Score">
+                  <div class="hud-label"><span class="hud-label-crown icon-wrap" id="icon-hud-crown"></span> Best</div>
+                  <div class="hud-value" id="best-score">0</div>
+                </div>
+              </div>
+
+              <nav class="hud-actions" aria-label="Quick Actions">
+                <div class="hud-action-item">
+                  <button id="btn-hud-undo" class="btn-hud-icon" aria-label="Undo Move" disabled title="Undo (U)">
+                    <span class="icon-wrap" id="icon-hud-undo"></span>
+                  </button>
+                  <span class="hud-action-label">Undo</span>
+                </div>
+                <div class="hud-action-item">
+                  <button id="btn-hud-restart" class="btn-hud-icon" aria-label="Restart Game" title="Restart Game (R)">
+                    <span class="icon-wrap" id="icon-hud-restart"></span>
+                  </button>
+                  <span class="hud-action-label">Restart</span>
+                </div>
+                <div class="hud-action-item">
+                  <button id="btn-hud-settings" class="btn-hud-icon" aria-label="Open Settings" title="Settings">
+                    <span class="icon-wrap" id="icon-hud-settings"></span>
+                  </button>
+                  <span class="hud-action-label">Settings</span>
+                </div>
+                <div class="hud-action-item">
+                  <button id="btn-hud-menu" class="btn-hud-icon btn-hud-pause" aria-label="Pause / Main Menu" title="Pause / Menu (P)">
+                    <span class="icon-wrap" id="icon-hud-menu"></span>
+                  </button>
+                  <span class="hud-action-label">Pause</span>
+                </div>
+              </nav>
+            </header>
+
+            <!-- Main Game Board Container -->
+            <main class="game-board-container" id="game-board" role="application" aria-label="2048 Fusion Grid Board">
+              <div class="grid-background" aria-hidden="true">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+              </div>
+              <div class="tile-container" id="tile-container"></div>
+            </main>
+
+            <!-- Bottom Status & Hint Banner (Interactive) -->
+            <div class="hint-banner" id="hint-banner" role="button" tabindex="0" title="Click to get best move recommendation">
+              <span class="hint-banner-bulb icon-wrap" id="icon-hint-bulb"></span>
+              <span id="hint-text">Combine identical numbers to reach <span class="hint-highlight">2048!</span></span>
+              <span class="hint-chevron">›</span>
+              <button id="btn-get-hint" class="hint-btn-pill" style="display: none;">Hint</button>
+            </div>
+
+          </div>
+
+          <!-- Keyboard Navigation Hints (Desktop Only - Sleek Floating Glass Dock) -->
+          <aside class="keyboard-hints" aria-label="Keyboard Shortcuts">
+            <div class="hints-dock">
+              <span class="hint-group">
+                <span class="kbd-cluster">
+                  <span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span>
+                </span>
+                <span class="hint-sep">/</span>
+                <span class="kbd-cluster">
+                  <span class="kbd">↑</span><span class="kbd">←</span><span class="kbd">↓</span><span class="kbd">→</span>
+                </span>
+                <span class="hint-label">Move</span>
+              </span>
+
+              <span class="dock-sep"></span>
+
+              <span class="hint-group">
+                <span class="kbd">U</span>
+                <span class="hint-label">Undo</span>
+              </span>
+
+              <span class="dock-sep"></span>
+
+              <span class="hint-group">
+                <span class="kbd">R</span>
+                <span class="hint-label">Restart</span>
+              </span>
+
+              <span class="dock-sep"></span>
+
+              <span class="hint-group">
+                <span class="kbd">P</span>
+                <span class="hint-label">Menu</span>
+              </span>
+            </div>
+          </aside>
+
+          <!-- Footer Attribution -->
+          <footer class="app-footer">
+            <div class="footer-inner">
+              <span class="footer-brand">2048 FUSION</span>
+              <span class="footer-dot">•</span>
+              <span class="footer-by">by <strong class="footer-author">Dulsan Vasantharaj</strong></span>
+              <span class="footer-badge">v1.0.0</span>
+            </div>
+          </footer>
         </div>
-      </div>
-    </header>
 
-    <!-- Toolbar: Actions & Controls -->
-    <nav class="toolbar" aria-label="Game Controls">
-      <div class="toolbar-group">
-        <button id="btn-new-game" class="btn btn-primary" aria-label="Start New Game">
-          <span>New Game</span>
-        </button>
-        <button id="btn-undo" class="btn" aria-label="Undo Move" disabled>
-          <span>Undo</span>
-        </button>
-      </div>
-      <div class="toolbar-group">
-        <button id="btn-sound" class="btn btn-icon-only" aria-label="Toggle Sound">
-          <svg id="sound-icon" viewBox="0 0 24 24" width="20" height="20">
-            <path d="M11 5L6 9H2V15H6L11 19V5Z"/>
-            <path d="M15.54 8.46C16.48 9.4 17 10.66 17 12C17 13.34 16.48 14.6 15.54 15.54"/>
-            <path d="M19.07 4.93C20.95 6.81 22 9.34 22 12C22 14.66 20.95 17.19 19.07 19.07"/>
-          </svg>
-        </button>
-        <button id="btn-help" class="btn btn-icon-only" aria-label="How to Play Instructions">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="17" r="1" fill="currentColor"/>
-          </svg>
-        </button>
-        <button id="btn-settings" class="btn btn-icon-only" aria-label="Game Settings">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </button>
-      </div>
-    </nav>
+        <!-- Desktop Right Sidebar (Visible on >= 1150px Viewports) -->
+        <aside class="desktop-sidebar desktop-sidebar-right">
+          <!-- Ambient Audio Player Pill -->
+          <button id="btn-ambient-player" class="ambient-player-pill" aria-label="Toggle Ambient Music" title="Toggle Ambient Music">
+            <span class="audio-pill-icon">🎵</span>
+            <div class="audio-pill-info">
+              <div class="audio-pill-title" id="ambient-pill-title">Ambient Flow :</div>
+              <div class="audio-pill-artist">by 2048 Fusion</div>
+            </div>
+            <div class="audio-wave-anim" id="audio-wave-bars">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </button>
 
-    <!-- Main Game Board -->
-    <main class="game-board-container" id="game-board" role="application" aria-label="2048 Fusion Board">
-      <div class="grid-background" aria-hidden="true">
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
-        <div class="grid-cell"></div>
+          <div class="sidebar-quote-top">
+            <div>Small</div>
+            <div>Moves</div>
+            <div>Big</div>
+            <div>Minds</div>
+            <div class="subtle-dash"></div>
+          </div>
+
+          <!-- Tile Colors Palette Guide (Exact Reference Card) -->
+          <div class="tile-palette-card">
+            <div class="palette-card-title">TILE COLORS</div>
+            <div class="palette-list">
+              <div class="palette-item"><span class="palette-badge tile-2">2</span><span class="palette-hex">#F4EDE4</span></div>
+              <div class="palette-item"><span class="palette-badge tile-4">4</span><span class="palette-hex">#EBDDC8</span></div>
+              <div class="palette-item"><span class="palette-badge tile-8">8</span><span class="palette-hex">#F7B279</span></div>
+              <div class="palette-item"><span class="palette-badge tile-16">16</span><span class="palette-hex">#F59563</span></div>
+              <div class="palette-item"><span class="palette-badge tile-32">32</span><span class="palette-hex">#F56C5B</span></div>
+              <div class="palette-item"><span class="palette-badge tile-64">64</span><span class="palette-hex">#EB4D4B</span></div>
+              <div class="palette-item"><span class="palette-badge tile-128">128</span><span class="palette-hex">#F1C453</span></div>
+              <div class="palette-item"><span class="palette-badge tile-256">256</span><span class="palette-hex">#C678DD</span></div>
+              <div class="palette-item"><span class="palette-badge tile-512">512</span><span class="palette-hex">#7B61FF</span></div>
+              <div class="palette-item"><span class="palette-badge tile-1024">1024</span><span class="palette-hex">#3DB2FF</span></div>
+              <div class="palette-item"><span class="palette-badge tile-2048">2048</span><span class="palette-hex">#00E5FF</span></div>
+            </div>
+          </div>
+
+          <div class="sidebar-quote-bottom">
+            <div>A Calmer Mind</div>
+            <div>A Sharper You</div>
+            <div class="subtle-dash"></div>
+          </div>
+        </aside>
+
       </div>
-      <div class="tile-container" id="tile-container"></div>
-    </main>
+    </section>
 
-    <!-- Keyboard Navigation Hints (Desktop) -->
-    <aside class="keyboard-hints" aria-label="Gameplay Shortcuts">
-      <span><span class="kbd">↑ ↓ ← →</span> or <span class="kbd">W A S D</span> to Move</span>
-      <span><span class="kbd">R</span> Restart</span>
-      <span><span class="kbd">U</span> Undo</span>
-    </aside>
-
-    <!-- Footer Credit -->
-    <footer class="app-footer">
-      <span>Developed by <strong>Dulsan Vasantharaj</strong></span>
-    </footer>
   </div>
 
-  <!-- Win Modal Dialog -->
-  <div class="modal-overlay" id="modal-win" role="dialog" aria-modal="true" aria-labelledby="win-title" aria-hidden="true">
-    <div class="modal-card">
-      <h2 class="modal-title modal-title-win" id="win-title">Fusion Core Achieved!</h2>
-      <p class="modal-desc">You successfully fused the <strong>2048</strong> energy core. You can keep pushing into supernova singularity or start anew!</p>
-      <div class="modal-actions">
-        <button id="btn-win-continue" class="btn btn-primary">Keep Playing</button>
-        <button id="btn-win-restart" class="btn">New Game</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Game Over Modal Dialog -->
+  <!-- ============================================== -->
+  <!-- MODAL: GAME OVER (Motivating & Professional)   -->
+  <!-- ============================================== -->
   <div class="modal-overlay" id="modal-game-over" role="dialog" aria-modal="true" aria-labelledby="game-over-title" aria-hidden="true">
     <div class="modal-card">
-      <h2 class="modal-title" id="game-over-title">Fusion Depleted</h2>
-      <p class="modal-desc">No more energy merges possible! Final score: <strong id="game-over-final-score">0</strong>.</p>
-      <div class="modal-actions">
-        <button id="btn-game-over-restart" class="btn btn-primary">Try Again</button>
+      <div class="game-over-icon" id="icon-go-header"></div>
+      <h2 class="game-over-title" id="game-over-title">Game Over</h2>
+      <p class="game-over-subtitle">No more moves left. But great effort!</p>
+
+      <div class="summary-card">
+        <div class="summary-row">
+          <span class="summary-label">Score</span>
+          <span class="summary-val summary-val-highlight" id="go-score">0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Best Score</span>
+          <span class="summary-val" id="go-best-score">0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Highest Tile</span>
+          <span class="tile-badge" id="go-highest-tile">2</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Total Moves</span>
+          <span class="summary-val" id="go-moves">0</span>
+        </div>
       </div>
+
+      <div class="modal-actions-stack">
+        <button id="btn-game-over-restart" class="btn btn-primary btn-cta">
+          <span class="icon-wrap" id="icon-go-restart"></span> Play Again
+        </button>
+        <div style="display: flex; gap: 8px; width: 100%;">
+          <button id="btn-game-over-menu" class="btn btn-secondary" style="flex: 1;">
+            <span class="icon-wrap" id="icon-go-menu"></span> Main Menu
+          </button>
+          <button id="btn-game-over-share" class="btn btn-secondary" style="flex: 1;">
+            <span class="icon-wrap" id="icon-go-share"></span> Share
+          </button>
+        </div>
+      </div>
+
+      <div class="quote-text" id="go-quote">"Every game gets you closer!"</div>
     </div>
   </div>
 
-  <!-- How to Play Modal Dialog -->
-  <div class="modal-overlay" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
+  <!-- ============================================== -->
+  <!-- MODAL: 2048 WIN STATE CELEBRATION              -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-win" role="dialog" aria-modal="true" aria-labelledby="win-title" aria-hidden="true">
     <div class="modal-card">
-      <h2 class="modal-title" id="help-title">How to Play</h2>
-      <p class="modal-desc" style="text-align: left;">
-        • <strong>Swipe</strong> or use <strong>Arrow / WASD</strong> keys to shift tiles.<br><br>
-        • When two equal tiles collide, they <strong>fuse into one</strong> with double the energy value!<br><br>
-        • <em>Anti-Double-Merge:</em> A tile can only merge once per turn.<br><br>
-        • Reach the <strong>2048 Fusion Core</strong> to win!
-      </p>
-      <div class="modal-actions">
-        <button class="btn btn-primary btn-close-modal">Got It</button>
+      <div class="win-trophy-icon" id="icon-win-header"></div>
+      <h2 class="win-title" id="win-title">You Reached 2048!</h2>
+      <p class="win-subtitle">Incredible! You achieved the energy core!</p>
+
+      <div class="win-stats-grid">
+        <div class="win-stat-box">
+          <span class="win-stat-label">Score</span>
+          <span class="win-stat-val" id="win-score">0</span>
+        </div>
+        <div class="win-stat-box">
+          <span class="win-stat-label">Moves</span>
+          <span class="win-stat-val" id="win-moves">0</span>
+        </div>
+        <div class="win-stat-box">
+          <span class="win-stat-label">Time</span>
+          <span class="win-stat-val" id="win-time">0m 00s</span>
+        </div>
       </div>
+
+      <div class="modal-actions-stack">
+        <button id="btn-win-continue" class="btn btn-primary btn-cta">
+          <span class="icon-wrap" id="icon-win-continue"></span> Keep Playing
+        </button>
+        <button id="btn-win-restart" class="btn btn-secondary">
+          <span class="icon-wrap" id="icon-win-restart"></span> New Game
+        </button>
+        <button id="btn-win-menu" class="btn btn-ghost">
+          <span class="icon-wrap" id="icon-win-menu"></span> Main Menu
+        </button>
+      </div>
+
+      <div class="quote-text">"Beyond 2048, the challenge continues!"</div>
     </div>
   </div>
 
-  <!-- Settings Modal Dialog -->
+  <!-- ============================================== -->
+  <!-- MODAL: SETTINGS (Grouped & Fully Functional)  -->
+  <!-- ============================================== -->
   <div class="modal-overlay" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">
-    <div class="modal-card">
-      <h2 class="modal-title" id="settings-title">Settings</h2>
-      <div class="settings-list">
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Background Music</div>
-            <div class="setting-desc">Ambient generative pad soundtrack</div>
-          </div>
-          <label class="switch" aria-label="Toggle Background Music">
-            <input type="checkbox" id="setting-music" checked>
-            <span class="slider"></span>
-          </label>
+    <div class="modal-card settings-modal-card">
+      <div class="settings-header">
+        <h2 class="settings-title" id="settings-title">Settings</h2>
+        <button class="modal-close-icon-btn btn-close-modal" aria-label="Close Settings">✕</button>
+      </div>
+
+      <!-- Group 1: Audio -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <span>Audio</span>
         </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Sound Effects</div>
-            <div class="setting-desc">Procedural audio chimes and taps</div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Background Music</span>
+              <span class="setting-desc">Ambient generative soundtrack</span>
+            </div>
+            <label class="switch" aria-label="Toggle Background Music">
+              <input type="checkbox" id="setting-music" checked>
+              <span class="slider"></span>
+            </label>
           </div>
-          <label class="switch" aria-label="Toggle Sound Effects">
-            <input type="checkbox" id="setting-sound" checked>
-            <span class="slider"></span>
-          </label>
+          <div class="setting-slider-row">
+            <input type="range" id="slider-music" class="range-slider" min="0" max="100" value="60" aria-label="Music Volume">
+            <span class="slider-value-badge" id="label-music-vol">60%</span>
+          </div>
         </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">High Contrast</div>
-            <div class="setting-desc">Maximum border and text contrast</div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Sound Effects</span>
+              <span class="setting-desc">Gameplay sounds and UI feedback</span>
+            </div>
+            <label class="switch" aria-label="Toggle Sound Effects">
+              <input type="checkbox" id="setting-sound" checked>
+              <span class="slider"></span>
+            </label>
           </div>
-          <label class="switch" aria-label="Toggle High Contrast">
-            <input type="checkbox" id="setting-contrast">
-            <span class="slider"></span>
-          </label>
+          <div class="setting-slider-row">
+            <input type="range" id="slider-sound" class="range-slider" min="0" max="100" value="80" aria-label="SFX Volume">
+            <span class="slider-value-badge" id="label-sound-vol">80%</span>
+          </div>
         </div>
-        <div class="setting-row">
-          <div>
-            <div class="setting-label">Reduced Motion</div>
-            <div class="setting-desc">Disable slide and scale transitions</div>
+
+        <!-- Non-Copyright Music Track Selector -->
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Soundtrack (100% Royalty-Free)</span>
+              <span class="setting-desc">Select your preferred synthesized music mood</span>
+            </div>
           </div>
-          <label class="switch" aria-label="Toggle Reduced Motion">
-            <input type="checkbox" id="setting-motion">
-            <span class="slider"></span>
-          </label>
+          <div class="setting-track-selector" id="track-selector">
+            <button class="track-select-btn active" data-track="ambient_flow">
+              <span class="track-name">Ambient Flow</span>
+              <span class="track-sub">Lush cosmic space pads</span>
+            </button>
+            <button class="track-select-btn" data-track="cyber_pulse">
+              <span class="track-name">Cyber Pulse</span>
+              <span class="track-sub">105 BPM Synthwave groove</span>
+            </button>
+            <button class="track-select-btn" data-track="starlight_zen">
+              <span class="track-name">Starlight Zen</span>
+              <span class="track-sub">Celestial music box</span>
+            </button>
+            <button class="track-select-btn" data-track="deep_focus">
+              <span class="track-name">Deep Focus</span>
+              <span class="track-sub">Ocean waves & theta drone</span>
+            </button>
+          </div>
         </div>
       </div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">
-        2048 Fusion v1.0.0 • Dulsan Vasantharaj
+
+      <!-- Group 2: Display & Scenery -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <span>Display & Scenery</span>
+        </div>
+
+        <!-- Background Theme Selector -->
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">World Wallpaper</span>
+              <span class="setting-desc">Customize your game landscape background</span>
+            </div>
+          </div>
+          <div class="setting-theme-grid" id="theme-selector">
+            <button class="theme-card-btn active" data-theme="cosmic_horizon" title="Cosmic Horizon">
+              <div class="theme-card-preview theme-cosmic-preview"></div>
+              <span>Cosmic Horizon</span>
+            </button>
+            <button class="theme-card-btn" data-theme="nebula_dream" title="Nebula Dream">
+              <div class="theme-card-preview theme-nebula-preview"></div>
+              <span>Nebula Dream</span>
+            </button>
+            <button class="theme-card-btn" data-theme="midnight_aurora" title="Midnight Aurora">
+              <div class="theme-card-preview theme-aurora-preview"></div>
+              <span>Midnight Aurora</span>
+            </button>
+            <button class="theme-card-btn" data-theme="deep_void" title="Deep Void">
+              <div class="theme-card-preview theme-void-preview"></div>
+              <span>Deep Void</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">High Contrast</span>
+              <span class="setting-desc">Increase border and text contrast</span>
+            </div>
+            <label class="switch" aria-label="Toggle High Contrast">
+              <input type="checkbox" id="setting-contrast">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Reduced Motion</span>
+              <span class="setting-desc">Minimize animations and transitions</span>
+            </div>
+            <label class="switch" aria-label="Toggle Reduced Motion">
+              <input type="checkbox" id="setting-motion">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
       </div>
-      <div class="modal-actions">
+
+      <!-- Group 3: Game -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <span>Game</span>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Show Move Hints</span>
+              <span class="setting-desc">Highlight potential moves and hint button</span>
+            </div>
+            <label class="switch" aria-label="Toggle Move Hints">
+              <input type="checkbox" id="setting-hints">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-row-main">
+            <div class="setting-texts">
+              <span class="setting-label">Confirm Restart</span>
+              <span class="setting-desc">Ask for confirmation before resetting game</span>
+            </div>
+            <label class="switch" aria-label="Toggle Confirm Restart">
+              <input type="checkbox" id="setting-confirm-restart" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 4: About -->
+      <div class="settings-about-box">
+        <div class="settings-about-title">2048 Fusion • Version 1.0.0</div>
+        <div>Developed by <strong>Dulsan Vasantharaj</strong></div>
+        <div>Built for YouTube Playables & modern responsive web.</div>
+        <div class="compliance-badge-row">
+          <span class="compliance-badge">Zero Audio Assets</span>
+          <span class="compliance-badge">Sandboxed</span>
+          <span class="compliance-badge">High Performance</span>
+        </div>
+      </div>
+
+      <div class="modal-actions-stack">
         <button class="btn btn-primary btn-close-modal">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Screen reader live updates region -->
+  <!-- ============================================== -->
+  <!-- MODAL: CONFIRM RESTART                         -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-confirm-restart" role="dialog" aria-modal="true" aria-labelledby="confirm-restart-title" aria-hidden="true">
+    <div class="modal-card">
+      <div style="font-size: 36px; margin-bottom: 8px;">⚠️</div>
+      <h2 class="game-over-title" id="confirm-restart-title">Restart Game?</h2>
+      <p class="game-over-subtitle">Are you sure you want to abandon this game? Your current score and progress will be reset.</p>
+      
+      <div class="modal-actions-stack">
+        <button id="btn-confirm-restart-yes" class="btn btn-danger btn-cta">Restart Game</button>
+        <button id="btn-confirm-restart-no" class="btn btn-secondary">Keep Playing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: HIGH SCORES & STATS (Tabbed Interface) -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-stats" role="dialog" aria-modal="true" aria-labelledby="stats-title" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header-icon" id="icon-stats-header"></div>
+      <h2 class="game-over-title" id="stats-title">High Scores & Stats</h2>
+      
+      <!-- Tab Bar -->
+      <div class="stats-tabs-bar" role="tablist">
+        <button class="stats-tab-btn active" id="tab-btn-records" role="tab" aria-selected="true">Best Scores</button>
+        <button class="stats-tab-btn" id="tab-btn-recent" role="tab" aria-selected="false">Recent Games</button>
+        <button class="stats-tab-btn" id="tab-btn-overall" role="tab" aria-selected="false">Stats</button>
+      </div>
+
+      <!-- Tab 1: Records -->
+      <div class="stats-pane active" id="pane-records" role="tabpanel">
+        <div class="scores-table" id="table-best-scores">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Recent -->
+      <div class="stats-pane" id="pane-recent" role="tabpanel">
+        <div class="scores-table" id="table-recent-games">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Tab 3: Overall Stats -->
+      <div class="stats-pane" id="pane-overall" role="tabpanel">
+        <div class="summary-card">
+          <div class="summary-row">
+            <span class="summary-label">Best Score</span>
+            <span class="summary-val summary-val-highlight" id="stats-best-score">0</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Highest Tile</span>
+            <span class="tile-badge" id="stats-highest-tile">2</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Games Played</span>
+            <span class="summary-val" id="stats-games-played">0</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Fusion Cores (Wins)</span>
+            <span class="summary-val" id="stats-games-won">0</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Win Rate</span>
+            <span class="summary-val" id="stats-win-rate">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions-stack">
+        <button class="btn btn-primary btn-close-modal">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: HOW TO PLAY (Visual Guide)              -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header-icon" id="icon-help-header"></div>
+      <h2 class="game-over-title" id="help-title">How to Play</h2>
+      
+      <div class="guide-cards-grid">
+        <div class="guide-step-card">
+          <div class="guide-step-visual" id="guide-swipe-icon"></div>
+          <div class="guide-step-text">
+            <div class="guide-step-title">Shift Tiles</div>
+            <div>Swipe or use <strong>Arrow / WASD</strong> keys to slide all tiles across the grid.</div>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="guide-step-visual">
+            <span class="mini-tile mini-tile-2">2</span>
+            <span class="mini-arrow">+</span>
+            <span class="mini-tile mini-tile-2">2</span>
+            <span class="mini-arrow">→</span>
+            <span class="mini-tile mini-tile-4">4</span>
+          </div>
+          <div class="guide-step-text">
+            <div class="guide-step-title">Collision Merge</div>
+            <div>When two equal tiles collide, they fuse into one with double the value!</div>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="guide-step-visual">
+            <span class="mini-tile mini-tile-2">2</span>
+            <span class="mini-tile mini-tile-2">2</span>
+            <span class="mini-tile mini-tile-2">2</span>
+            <span class="mini-arrow">→</span>
+            <span class="mini-tile mini-tile-4">4</span>
+            <span class="mini-tile mini-tile-2">2</span>
+          </div>
+          <div class="guide-step-text">
+            <div class="guide-step-title">Single-Merge Rule</div>
+            <div>A tile can only merge once per turn. Combos chain consecutively!</div>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="guide-step-visual">
+            <span class="mini-tile mini-tile-2048">2048</span>
+          </div>
+          <div class="guide-step-text">
+            <div class="guide-step-title">The Singularity</div>
+            <div>Reach the <strong>2048 Energy Core</strong> to win, then keep pushing beyond!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions-stack">
+        <button class="btn btn-primary btn-close-modal">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen reader live region -->
   <div id="a11y-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Application Bootstrap -->
