@@ -1,0 +1,225 @@
+.game-board-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--board-max-width);
+  aspect-ratio: 1 / 1;
+  background-color: var(--bg-surface);
+  border-radius: var(--border-radius-lg);
+  padding: var(--board-padding);
+  box-sizing: border-box;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.grid-background {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: var(--grid-gap);
+  width: 100%;
+  height: 100%;
+}
+
+.grid-cell {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: var(--border-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.tile-container {
+  position: absolute;
+  top: var(--board-padding);
+  left: var(--board-padding);
+  right: var(--board-padding);
+  bottom: var(--board-padding);
+  pointer-events: none;
+}
+
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-bold);
+  box-sizing: border-box;
+  will-change: transform;
+  transition: transform var(--transition-slide);
+  z-index: 10;
+}
+
+.tile-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-md);
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Animations */
+.tile-new .tile-inner {
+  animation: tile-spawn var(--transition-pop);
+}
+
+.tile-merged .tile-inner {
+  animation: tile-merge var(--transition-pop);
+  z-index: 20;
+}
+
+@keyframes tile-spawn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes tile-merge {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Shake on invalid move */
+.board-shake {
+  animation: shake 200ms ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Tile Value Variants */
+.tile-2 .tile-inner {
+  background: var(--tile-2-bg);
+  color: var(--tile-2-color);
+  border: 1px solid var(--tile-2-border);
+  font-size: clamp(26px, 7vw, 38px);
+}
+
+.tile-4 .tile-inner {
+  background: var(--tile-4-bg);
+  color: var(--tile-4-color);
+  border: 1px solid var(--tile-4-border);
+  font-size: clamp(26px, 7vw, 38px);
+}
+
+.tile-8 .tile-inner {
+  background: var(--tile-8-bg);
+  color: var(--tile-8-color);
+  border: 1px solid var(--tile-8-border);
+  font-size: clamp(26px, 7vw, 38px);
+}
+
+.tile-16 .tile-inner {
+  background: var(--tile-16-bg);
+  color: var(--tile-16-color);
+  border: 1px solid var(--tile-16-border);
+  font-size: clamp(24px, 6.5vw, 34px);
+}
+
+.tile-32 .tile-inner {
+  background: var(--tile-32-bg);
+  color: var(--tile-32-color);
+  border: 1px solid var(--tile-32-border);
+  font-size: clamp(24px, 6.5vw, 34px);
+}
+
+.tile-64 .tile-inner {
+  background: var(--tile-64-bg);
+  color: var(--tile-64-color);
+  border: 1px solid var(--tile-64-border);
+  font-size: clamp(24px, 6.5vw, 34px);
+}
+
+.tile-128 .tile-inner {
+  background: var(--tile-128-bg);
+  color: var(--tile-128-color);
+  border: 1px solid var(--tile-128-border);
+  box-shadow: var(--tile-128-shadow);
+  font-size: clamp(20px, 5.5vw, 28px);
+}
+
+.tile-256 .tile-inner {
+  background: var(--tile-256-bg);
+  color: var(--tile-256-color);
+  border: 1px solid var(--tile-256-border);
+  box-shadow: var(--tile-256-shadow);
+  font-size: clamp(20px, 5.5vw, 28px);
+}
+
+.tile-512 .tile-inner {
+  background: var(--tile-512-bg);
+  color: var(--tile-512-color);
+  border: 1px solid var(--tile-512-border);
+  box-shadow: var(--tile-512-shadow);
+  font-size: clamp(20px, 5.5vw, 28px);
+}
+
+.tile-1024 .tile-inner {
+  background: var(--tile-1024-bg);
+  color: var(--tile-1024-color);
+  border: 1px solid var(--tile-1024-border);
+  box-shadow: var(--tile-1024-shadow);
+  font-size: clamp(16px, 4.5vw, 24px);
+}
+
+.tile-2048 .tile-inner {
+  background: var(--tile-2048-bg);
+  color: var(--tile-2048-color);
+  border: 2px solid var(--tile-2048-border);
+  box-shadow: var(--tile-2048-shadow);
+  font-size: clamp(16px, 4.5vw, 24px);
+}
+
+.tile-super .tile-inner {
+  background: var(--tile-super-bg);
+  color: var(--tile-super-color);
+  border: 2px solid var(--tile-super-border);
+  box-shadow: var(--tile-super-shadow);
+  font-size: clamp(15px, 4vw, 22px);
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none !important;
+  }
+  .tile-new .tile-inner,
+  .tile-merged .tile-inner,
+  .board-shake {
+    animation: none !important;
+  }
+}
+
+body.reduced-motion .tile {
+  transition: none !important;
+}
+
+body.reduced-motion .tile-new .tile-inner,
+body.reduced-motion .tile-merged .tile-inner,
+body.reduced-motion .board-shake {
+  animation: none !important;
+}

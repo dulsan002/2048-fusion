@@ -1,0 +1,115 @@
+:root {
+  /* Color System - Obsidian & Fusion Neons */
+  --bg-color: #0b0e14;
+  --bg-surface: #151b26;
+  --bg-surface-elevated: #1c2436;
+  --border-subtle: #2d3748;
+  --border-focus: #00f0ff;
+
+  --text-main: #f0f6fc;
+  --text-muted: #8b949e;
+  --text-inverse: #0b0e14;
+
+  --accent-cyan: #00f0ff;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-ruby: #f43f5e;
+  --accent-violet: #8b5cf6;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+
+  /* Spacing & Sizing */
+  --board-max-width: 460px;
+  --board-padding: 12px;
+  --grid-gap: 12px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 16px;
+  --border-radius-pill: 9999px;
+
+  /* Animation Durations */
+  --transition-slide: 100ms cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-pop: 140ms ease-out;
+  --transition-fast: 120ms ease;
+
+  /* Tile Colors & Luminescence */
+  --tile-2-bg: linear-gradient(135deg, #1e293b, #334155);
+  --tile-2-color: #f1f5f9;
+  --tile-2-border: #475569;
+
+  --tile-4-bg: linear-gradient(135deg, #0f3b46, #155e75);
+  --tile-4-color: #ecfeff;
+  --tile-4-border: #0891b2;
+
+  --tile-8-bg: linear-gradient(135deg, #064e3b, #047857);
+  --tile-8-color: #ecfdf5;
+  --tile-8-border: #10b981;
+
+  --tile-16-bg: linear-gradient(135deg, #713f12, #b45309);
+  --tile-16-color: #fffbeb;
+  --tile-16-border: #f59e0b;
+
+  --tile-32-bg: linear-gradient(135deg, #7c2d12, #c2410c);
+  --tile-32-color: #fff7ed;
+  --tile-32-border: #f97316;
+
+  --tile-64-bg: linear-gradient(135deg, #831843, #be185d);
+  --tile-64-color: #fff1f2;
+  --tile-64-border: #f43f5e;
+
+  --tile-128-bg: linear-gradient(135deg, #4c1d95, #6d28d9);
+  --tile-128-color: #f5f3ff;
+  --tile-128-border: #8b5cf6;
+  --tile-128-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+
+  --tile-256-bg: linear-gradient(135deg, #581c87, #7e22ce);
+  --tile-256-color: #faf5ff;
+  --tile-256-border: #a855f7;
+  --tile-256-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
+
+  --tile-512-bg: linear-gradient(135deg, #1e1b4b, #3730a3);
+  --tile-512-color: #e0e7ff;
+  --tile-512-border: #6366f1;
+  --tile-512-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+
+  --tile-1024-bg: linear-gradient(135deg, #78350f, #d97706);
+  --tile-1024-color: #fffbeb;
+  --tile-1024-border: #fbbf24;
+  --tile-1024-shadow: 0 0 24px rgba(251, 191, 36, 0.7);
+
+  --tile-2048-bg: linear-gradient(135deg, #f59e0b, #ec4899, #8b5cf6);
+  --tile-2048-color: #ffffff;
+  --tile-2048-border: #fde047;
+  --tile-2048-shadow: 0 0 32px rgba(253, 224, 71, 0.85);
+
+  --tile-super-bg: linear-gradient(135deg, #00f0ff, #7928ca, #ff0080);
+  --tile-super-color: #ffffff;
+  --tile-super-border: #00f0ff;
+  --tile-super-shadow: 0 0 36px rgba(0, 240, 255, 0.9);
+}
+
+/* High Contrast Mode Tokens */
+body.high-contrast {
+  --bg-color: #000000;
+  --bg-surface: #121212;
+  --bg-surface-elevated: #242424;
+  --border-subtle: #ffffff;
+  --text-main: #ffffff;
+  --text-muted: #cccccc;
+  --tile-2-border: #ffffff;
+  --tile-4-border: #ffffff;
+  --tile-8-border: #ffffff;
+  --tile-16-border: #ffffff;
+  --tile-32-border: #ffffff;
+  --tile-64-border: #ffffff;
+  --tile-128-border: #ffffff;
+  --tile-256-border: #ffffff;
+  --tile-512-border: #ffffff;
+  --tile-1024-border: #ffffff;
+  --tile-2048-border: #ffffff;
+  --tile-super-border: #ffffff;
+}

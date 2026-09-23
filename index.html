@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="2048 Fusion — A production-grade, cyber-luminescent 2048 puzzle game built for YouTube Playables and web by Dulsan Vasantharaj.">
+  <meta name="theme-color" content="#0b0e14">
+  <meta name="author" content="Dulsan Vasantharaj">
+  <title>2048 Fusion</title>
+
+  <!-- Official YouTube Playables SDK (must precede game scripts) -->
+  <script src="https://www.youtube.com/game_api/v1"></script>
+
+  <!-- Favicon / Web App Icon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0e14'/><circle cx='50' cy='50' r='36' fill='none' stroke='%2300f0ff' stroke-width='8'/><text x='50' y='58' font-family='sans-serif' font-weight='bold' font-size='26' fill='%23ffffff' text-anchor='middle'>2048</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Header: Branding & Score Counters -->
+    <header class="game-header">
+      <div class="brand-wrapper">
+        <h1 class="brand-title">2048 FUSION</h1>
+        <div class="brand-subtitle">Energy Core Fusion</div>
+      </div>
+      <div class="scores-wrapper">
+        <div class="score-box" id="score-box" aria-label="Current Score">
+          <div class="score-label">Score</div>
+          <div class="score-value" id="current-score">0</div>
+        </div>
+        <div class="score-box" aria-label="Best Score">
+          <div class="score-label">Best</div>
+          <div class="score-value" id="best-score">0</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Toolbar: Actions & Controls -->
+    <nav class="toolbar" aria-label="Game Controls">
+      <div class="toolbar-group">
+        <button id="btn-new-game" class="btn btn-primary" aria-label="Start New Game">
+          <span>New Game</span>
+        </button>
+        <button id="btn-undo" class="btn" aria-label="Undo Move" disabled>
+          <span>Undo</span>
+        </button>
+      </div>
+      <div class="toolbar-group">
+        <button id="btn-sound" class="btn btn-icon-only" aria-label="Toggle Sound">
+          <svg id="sound-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M11 5L6 9H2V15H6L11 19V5Z"/>
+            <path d="M15.54 8.46C16.48 9.4 17 10.66 17 12C17 13.34 16.48 14.6 15.54 15.54"/>
+            <path d="M19.07 4.93C20.95 6.81 22 9.34 22 12C22 14.66 20.95 17.19 19.07 19.07"/>
+          </svg>
+        </button>
+        <button id="btn-help" class="btn btn-icon-only" aria-label="How to Play Instructions">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="17" r="1" fill="currentColor"/>
+          </svg>
+        </button>
+        <button id="btn-settings" class="btn btn-icon-only" aria-label="Game Settings">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Game Board -->
+    <main class="game-board-container" id="game-board" role="application" aria-label="2048 Fusion Board">
+      <div class="grid-background" aria-hidden="true">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="tile-container" id="tile-container"></div>
+    </main>
+
+    <!-- Keyboard Navigation Hints (Desktop) -->
+    <aside class="keyboard-hints" aria-label="Gameplay Shortcuts">
+      <span><span class="kbd">↑ ↓ ← →</span> or <span class="kbd">W A S D</span> to Move</span>
+      <span><span class="kbd">R</span> Restart</span>
+      <span><span class="kbd">U</span> Undo</span>
+    </aside>
+
+    <!-- Footer Credit -->
+    <footer class="app-footer">
+      <span>Developed by <strong>Dulsan Vasantharaj</strong></span>
+    </footer>
+  </div>
+
+  <!-- Win Modal Dialog -->
+  <div class="modal-overlay" id="modal-win" role="dialog" aria-modal="true" aria-labelledby="win-title" aria-hidden="true">
+    <div class="modal-card">
+      <h2 class="modal-title modal-title-win" id="win-title">Fusion Core Achieved!</h2>
+      <p class="modal-desc">You successfully fused the <strong>2048</strong> energy core. You can keep pushing into supernova singularity or start anew!</p>
+      <div class="modal-actions">
+        <button id="btn-win-continue" class="btn btn-primary">Keep Playing</button>
+        <button id="btn-win-restart" class="btn">New Game</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Modal Dialog -->
+  <div class="modal-overlay" id="modal-game-over" role="dialog" aria-modal="true" aria-labelledby="game-over-title" aria-hidden="true">
+    <div class="modal-card">
+      <h2 class="modal-title" id="game-over-title">Fusion Depleted</h2>
+      <p class="modal-desc">No more energy merges possible! Final score: <strong id="game-over-final-score">0</strong>.</p>
+      <div class="modal-actions">
+        <button id="btn-game-over-restart" class="btn btn-primary">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Play Modal Dialog -->
+  <div class="modal-overlay" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
+    <div class="modal-card">
+      <h2 class="modal-title" id="help-title">How to Play</h2>
+      <p class="modal-desc" style="text-align: left;">
+        • <strong>Swipe</strong> or use <strong>Arrow / WASD</strong> keys to shift tiles.<br><br>
+        • When two equal tiles collide, they <strong>fuse into one</strong> with double the energy value!<br><br>
+        • <em>Anti-Double-Merge:</em> A tile can only merge once per turn.<br><br>
+        • Reach the <strong>2048 Fusion Core</strong> to win!
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-close-modal">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal Dialog -->
+  <div class="modal-overlay" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">
+    <div class="modal-card">
+      <h2 class="modal-title" id="settings-title">Settings</h2>
+      <div class="settings-list">
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Background Music</div>
+            <div class="setting-desc">Ambient generative pad soundtrack</div>
+          </div>
+          <label class="switch" aria-label="Toggle Background Music">
+            <input type="checkbox" id="setting-music" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Sound Effects</div>
+            <div class="setting-desc">Procedural audio chimes and taps</div>
+          </div>
+          <label class="switch" aria-label="Toggle Sound Effects">
+            <input type="checkbox" id="setting-sound" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">High Contrast</div>
+            <div class="setting-desc">Maximum border and text contrast</div>
+          </div>
+          <label class="switch" aria-label="Toggle High Contrast">
+            <input type="checkbox" id="setting-contrast">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Reduced Motion</div>
+            <div class="setting-desc">Disable slide and scale transitions</div>
+          </div>
+          <label class="switch" aria-label="Toggle Reduced Motion">
+            <input type="checkbox" id="setting-motion">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">
+        2048 Fusion v1.0.0 • Dulsan Vasantharaj
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary btn-close-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen reader live updates region -->
+  <div id="a11y-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Application Bootstrap -->
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
