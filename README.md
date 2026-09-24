@@ -1,5 +1,9 @@
 # 2048 Fusion
 
+[![Play Game](https://img.shields.io/badge/🎮%20PLAY%20LIVE-2048%20FUSION-00D9FF?style=for-the-badge)](https://2048-fusion-three.vercel.app/)
+
+A production-grade, cyber-luminescent 2048 puzzle game engineered specifically for YouTube Playables, GitHub Portfolio, and Vercel deployment.
+
 [![Build & Verification](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Tests](https://img.shields.io/badge/tests-55%20passed-success.svg)]()
 [![Bundle Size](https://img.shields.io/badge/bundle%20size-18%20KiB%20(GZIP)-blue.svg)]()
